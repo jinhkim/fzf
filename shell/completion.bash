@@ -307,14 +307,14 @@ complete -o default -F _fzf_opts_completion fzf
 
 d_cmds="${FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir}"
 a_cmds="
-  awk cat diff diff3
+  ag awk cat diff diff3
   emacs emacsclient ex file ftp g++ gcc gvim head hg java
   javac ld less more mvim nvim patch perl python ruby
   sed sftp sort source tail tee uniq vi view vim wc xdg-open
   basename bunzip2 bzip2 chmod chown curl cp dirname du
-  find git grep gunzip gzip hg jar
+  find git gitk grep gunzip gzip hg jar
   ln ls mv open rm rsync scp
-  svn tar unzip zip"
+  svn tar tig unzip zip"
 
 # Preserve existing completion
 __fzf_orig_completion < <(complete -p $d_cmds $a_cmds 2> /dev/null)
