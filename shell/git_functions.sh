@@ -19,11 +19,12 @@ gf() {
 
 gb() {
   is_in_git_repo || return
-  git branch --all --color=always | sed "s/remotes\/origin\///g" | grep -v '/HEAD\s' | sort |
+  branch=$(git branch --all --color=always | sed "s/remotes\/origin\///g" | grep -v '/HEAD\s' | sort |
   fzf-down --ansi --multi --tac --preview-window right:70% \
     --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
   sed 's/^..//' | cut -d' ' -f1 |
-  sed 's#^remotes/##'
+  sed 's#^remotes/##')
+  git_output=$(git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //") 2>&1)
 }
 
 gt() {
@@ -48,4 +49,13 @@ gr() {
   fzf-down --tac \
     --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
   cut -d$'\t' -f1
+}
+
+ge() {
+  is_in_git_repo || return
+  git branch --all --color=always | sed "s/remotes\/origin\///g" | grep -v '/HEAD\s' | sort |
+  fzf-down --ansi --multi --tac --preview-window right:70% \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+  sed 's/^..//' | cut -d' ' -f1 |
+  sed 's#^remotes/##'
 }
