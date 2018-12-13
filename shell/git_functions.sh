@@ -25,6 +25,9 @@ gb() {
   sed 's/^..//' | cut -d' ' -f1 |
   sed 's#^remotes/##')
   git_output=$(git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //") 2>&1)
+  if [[ $? == 1 ]]; then
+	echo "$git_output"
+  fi
 }
 
 gt() {
